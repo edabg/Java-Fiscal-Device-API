@@ -5,7 +5,7 @@ import com.taliter.fiscal.port.serial.SerialFiscalPortSource;
 import com.taliter.fiscal.util.LoggerFiscalDeviceEventHandler;
 
 /**
- * A simple example that prints a non-fiscal check. Tested on Daisy ProfiPrint and Datecs FP-2000.
+ * A simple example that prints a non-fiscal check. Tested on Daisy ProfiPrint and Datecs FP-2000KL.
  */
 public class SampleICL {
     private static int CMD_OPEN_NONFISCAL_CHECK = 0x26;
@@ -19,7 +19,7 @@ public class SampleICL {
 
         // Creates ICL fiscal device object.
         ICLFiscalDevice device = deviceSource.getFiscalDevice();
-
+//        device.getFiscalPort().setBaudRate(9600);
         device.getFiscalPort().setBaudRate(115200);
         // Plug an event handler that logs the events triggered by the device.
         device.setEventHandler(new LoggerFiscalDeviceEventHandler(System.out));
@@ -31,7 +31,7 @@ public class SampleICL {
         try {
             // Create a request packet.
             ICLFiscalPacket request = device.createFiscalPacket();
-
+            
             request.setCommandCode(CMD_OPEN_NONFISCAL_CHECK);
             device.execute(request);
             

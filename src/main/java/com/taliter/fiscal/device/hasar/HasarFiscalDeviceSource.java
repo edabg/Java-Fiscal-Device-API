@@ -42,50 +42,114 @@ public class HasarFiscalDeviceSource implements FiscalDeviceSource
 	}
 
 	public void setPortSource(FiscalPortSource portSource) { this.portSource = portSource; }
-	public FiscalPortSource getPortSource() { return portSource; }
 
-	/** Set the protocol timeout. */
+        public FiscalPortSource getPortSource() { return portSource; }
+
+	/** 
+         * Set the protocol timeout. 
+         * @param timeout The protocol timeout
+         */
 	public void setTimeout(int timeout) { this. timeout= timeout; }
-	/** Get the protocol timeout. */
+        
+        
+	/** 
+         * Get the protocol timeout. 
+         * @return The protocol timeout
+         */
 	public int getTimeout() { return timeout; }
 
-	/** True to use the extended (STATPRN) protocol. */
+	/** 
+         * True to use the extended (STATPRN) protocol. 
+         * @param extendedProtocol Boolean variable that specify whether to use extended protocol.
+         */
 	public void setExtendedProtocol(boolean extendedProtocol) { this.extendedProtocol = extendedProtocol; }
-	/** True to use the extended (STATPRN) protocol. */
+
+        /** 
+         * True to use the extended (STATPRN) protocol. 
+         * @return True if the protocol is extended.
+         */
 	public boolean getExtendedProtocol() { return extendedProtocol; }
 
-	/** True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
-	False to return STATPRN responses from the FiscalDevice.execute() methods. */
+	/** 
+         * Set to handle extended protocol
+         * @param handleExtendedProtocol True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
+	 * False to return STATPRN responses from the FiscalDevice.execute() methods. 
+         */
 	public void setHandleExtendedProtocol(boolean handleExtendedProtocol) { this.handleExtendedProtocol = handleExtendedProtocol; }
+        
+        
 	/** True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
 	False to return STATPRN responses from the FiscalDevice.execute() methods. */
-	public boolean getHandleExtendedProtocol() { return handleExtendedProtocol; }
+	
+        /**
+         * Returns true or false depending on whether it is set to handle extended protocol or it isn't.
+         * @return True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
+         * False to return STATPRN responses from the FiscalDevice.execute() methods.
+         */
+        public boolean getHandleExtendedProtocol() { return handleExtendedProtocol; }
 
-	/** Set the number of times requests are tried before timeouting. */
+        /** 
+         * Set the number of times requests are tried before timeouting. 
+         * @param maxTries The number of tries.
+         */
 	public void setMaxTries(int maxTries) { this.maxTries = maxTries; }
-	/** Get the number of times requests are tried before timeouting. */
-	public int getMaxTries() { return maxTries; }
 
-	/** Set the encoding to use for strings in packets. */
+        /** 
+         * Get the number of times requests are tried before timeouting. 
+         * @return The number of tries.
+         */
+        public int getMaxTries() { return maxTries; }
+
+	/** 
+         * Set the encoding to use for strings in newly created packets. 
+         * @param encoding The packet's encoding.
+         */
 	public void setEncoding(String encoding) { this.encoding = encoding; }
-	/** Get the encoding to use for strings in packets. */
+
+        /** 
+         * Get the encoding to use for strings in the  packets. 
+         * @return The packet's encoding.
+         */
 	public String getEncoding() { return encoding; }
 
-	/** Set the base roll-over year to use for dates in packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. */
+	/** 
+         * Set the base roll-over year to use for dates in newly created packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. 
+         * @param baseRolloverYear The base rollover year.
+         */
 	public void setBaseRolloverYear(int baseRolloverYear) { this.baseRolloverYear = baseRolloverYear; }
-	/** Get the base roll-over year to use for dates in packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. */
+
+        /** 
+         * Get the base roll-over year to use for dates in newly created packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. 
+         * @return The base rollover year.
+         */
+	/** 
+         * Get the base roll-over year to use for dates in packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. 
+         * @return The base roll over year.
+         */
 	public int getBaseRolloverYear() { return baseRolloverYear; }
 
-	/** Create a HasarFiscalDevice object. Uses the configured port source, if any. */
+	/** 
+         * Create a HasarFiscalDevice object. Uses the configured port source, if any. 
+         * @return A HasarFiscalDevice object.
+         * @throws Exception Throws Exception.
+         */
 	public FiscalDevice getFiscalDevice() throws Exception { return getHasarFiscalDevice(); }
 
-	/** Create a HasarFiscalDevice object. Uses the configured port source, if any. */
+	/** 
+         * Create a HasarFiscalDevice object. Uses the configured port source, if any. 
+         * @return A HasaFiscalDevice object.
+         * @throws Exception Throws Exception
+         */
 	public HasarFiscalDevice getHasarFiscalDevice() throws Exception
 	{
 		return new HasarFiscalDevice(portSource != null ? portSource.getFiscalPort() : null, timeout, extendedProtocol, handleExtendedProtocol, maxTries, encoding, baseRolloverYear);
 	}
 
-	/** Create a HasarFiscalDevice object. Uses the specified port, if any. */
+	/** 
+         * Create a HasarFiscalDevice object. Uses the configured port source, if any. 
+         * @param port The fiscal port. 
+         * @return A HasaFiscalDevice object.
+         */
 	public HasarFiscalDevice getHasarFiscalDevice(FiscalPort port)
 	{
 		return new HasarFiscalDevice(port, timeout, extendedProtocol, handleExtendedProtocol, maxTries, encoding, baseRolloverYear);

@@ -4,7 +4,7 @@ import com.taliter.fiscal.device.hasar.HasarFiscalDeviceSource;
 import com.taliter.fiscal.port.FiscalPortSource;
 
 /**
- * A ICLFiscalDevice factory
+ * A ICLBasicFiscalDevice factory
  * @author nikolabintev@edabg.com
  */
 public class ICLFiscalDeviceSource extends HasarFiscalDeviceSource{
@@ -40,11 +40,10 @@ public class ICLFiscalDeviceSource extends HasarFiscalDeviceSource{
     /**
      * Get ICL fiscal device
      * @return Returns ICL Fiscal Device object
-     * @throws Exception 
+     * @throws Exception Throws Exception
      */
     @Override
     public ICLFiscalDevice getFiscalDevice() throws Exception {
         return new ICLFiscalDevice(getPortSource() != null ? getPortSource().getFiscalPort() : null, getTimeout(), getMaxTries(), getEncoding());
-        
     }
 }

@@ -10,15 +10,37 @@ public interface FiscalDeviceEventHandler
 	/** The device is out of paper. */
 	public int STATUS_PAPER_OUT = 0x14;
 
-	/** Invoked before throwing a FiscalDeviceTimeoutException.
-	@return true to force a retry cycle. */
+	/** 
+         * Invoked before throwing a FiscalDeviceTimeoutException.
+         * @param source The fiscal device
+         * @param request The fiscal request.
+         * @return true to force a retry cycle. 
+         */
 	public boolean onTimeout(FiscalDevice source, FiscalPacket request);
-	/** Invoked periodically during long operations while waiting for a response.
-	STATUS_NORMAL is always reported after such operations, and also before processing a STATPRN response. */
+        
+	/** 
+         * Invoked periodically during long operations while waiting for a response.
+         * STATUS_NORMAL is always reported after such operations, and also before processing a STATPRN response. 
+         * @param source The fiscal device
+         * @param request The fiscal request.
+         * @param status The fiscal status.
+        */
 	public void onStatus(FiscalDevice source, FiscalPacket request, int status);
-	/** Invoked when a STATPRN response is received and the FiscalDevice is configured to handle such responses.
-	@return false to abort the request. */
+        
+	/** 
+         * Invoked when a STATPRN response is received and the FiscalDevice is configured to handle such responses.
+         * @param source The fiscal device
+         * @param request The fiscal request.
+         * @param status The fiscal status.
+	 * @return false to abort the request. 
+        */
 	public boolean onExtendedStatus(FiscalDevice source, FiscalPacket request, FiscalPacket status);
-	/** Invoked after every successful request execution. */
+        
+	/** 
+         * Invoked after every successful request execution. 
+         * @param source The fiscal device
+         * @param request The fiscal request.
+         * @param response The response from the fiscal device.
+         */
 	public void onExecute(FiscalDevice source, FiscalPacket request, FiscalPacket response);
 }

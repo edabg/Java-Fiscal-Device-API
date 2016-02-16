@@ -36,25 +36,49 @@ public class LoggerFiscalPortSource implements FiscalPortSource, Cloneable
 		catch (CloneNotSupportedException e) { throw new Error(e.toString()); }
 	}
 
-	/** Set the underlying FiscalPortSource. */
+	/**
+         * Set the underlying FiscalPortSource. 
+         * @param portSource A fiscal port source.
+         */
 	public void setPortSource(FiscalPortSource portSource) { this.portSource = portSource; }
-	/** Get the underlying FiscalPortSource. */
+	
+        /** 
+         * Get the underlying FiscalPortSource. 
+         * @return A fiscal port source.
+         */
 	public FiscalPortSource getPortSource() { return portSource; }
 
-	/** Set the logging PrintWriter. */
+	/** 
+         * Set the logging PrintWriter. 
+         * @param printWriter A logging print writer.
+         */
 	public void setPrintWriter(PrintWriter printWriter) { this.printWriter = printWriter; printStream = null; }
-	/** Get the logging PrintWriter. */
+	/** 
+         * Get the logging PrintWriter. 
+         * @return The PrintWriter object.
+         */
 	public PrintWriter getPrintWriter() { return printWriter; }
 
-	/** Set the logging PrintStream. */
+	/** 
+         * Set the logging PrintStream. 
+         * @param printStream The PrintStream object
+         */
 	public void setPrintStream(PrintStream printStream) { this.printStream = printStream; printWriter = null; }
-	/** Get the logging PrintStream. */
+	
+        /** 
+         * Get the logging PrintStream. 
+         * @return The logging print stream.
+         */
 	public PrintStream getPrintStream() { return printStream; }
 
 	/** Create a LoggerFiscalPort object. */
 	public FiscalPort getFiscalPort() throws Exception { return getLoggerFiscalPort(); }
 
-	/** Create a LoggerFiscalPort object. */
+	/** 
+         * Create a LoggerFiscalPort object. 
+         * @return A LoggerFiscalPort object.
+         * @throws Exception Throws Exception.
+         */
 	public LoggerFiscalPort getLoggerFiscalPort() throws Exception
 	{
 		if (printWriter != null) return new LoggerFiscalPort(portSource.getFiscalPort(), printWriter);

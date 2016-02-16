@@ -50,11 +50,16 @@ public class HasarFiscalDevice extends BasicFiscalDevice
 	}
 
         public FiscalPacket createFiscalPacket() { return new HasarFiscalPacket(getEncoding(), getBaseRolloverYear()); }
-	/** True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
-	False to return STATPRN responses from the FiscalDevice.execute() methods. */
+	/** 
+         * @param handleExtendedProtocol True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
+	 * False to return STATPRN responses from the FiscalDevice.execute() methods. 
+        */
 	public void setHandleExtendedProtocol(boolean handleExtendedProtocol) { this.handleExtendedProtocol = handleExtendedProtocol; }
-	/** True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
-	False to return STATPRN responses from the FiscalDevice.execute() methods. */
+
+        /** 
+         * @return True to handle STATPRN responses via the FiscalDeviceEventHandler.onExtendedStatus() event.
+         * False to return STATPRN responses from the FiscalDevice.execute() methods. 
+        */
 	public boolean getHandleExtendedProtocol() { return handleExtendedProtocol; }
 
 
@@ -84,7 +89,12 @@ public class HasarFiscalDevice extends BasicFiscalDevice
 		onExecute(request, response);
 	}
 
-	/** onExtendedStatus() event dispacther. */
+	/** 
+         * onExtendedStatus() event dispacther. 
+         * @param request The fiscal request.
+         * @param status The fiscal satus
+         * @return Returns true or false depending on the fiscal device extended protocol support.
+         */
 	protected boolean onExtendedStatus(FiscalPacket request, FiscalPacket status)	// Abort if false.
 	{
 		// Make sure the event lasts at least for a timeout period if true is returned.

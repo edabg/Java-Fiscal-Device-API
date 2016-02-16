@@ -186,7 +186,7 @@ public class ICLFiscalPacket extends AbstractFiscalPacket {
     /**
      * Get fiscal device's date.
      * @param field The field index.
-     * @return 
+     * @return The fiscal device date
      */
     @Override
     public Date getDate(int field) {

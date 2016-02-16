@@ -42,52 +42,119 @@ public class SerialFiscalPortSource implements FiscalPortSource, Cloneable
 		catch (CloneNotSupportedException e) { throw new Error(e.toString()); }
 	}
 
-	/** Set the name of the serial port to use. */
+	/** 
+         * Set the name of the serial port to use. 
+         * @param portName The name of the port.
+         */
 	public void setPortName(String portName) { this.portName = portName; }
-	/** Get the name of the serial port to use. */
+        
+	/** 
+         * Get the name of the serial port to use. 
+         * @return The name of the port.
+         */
 	public String getPortName() { return portName; }
 
-	/** Set the name to report as the requesting application for serial port contention negotiation during open(). */
+	/** 
+         * Set the name to report as the requesting application for serial port contention negotiation during open(). 
+         * @param appName The application name which use the port.
+         */
 	public void setAppName(String appName) { this.appName = appName; }
-	/** Get the name to report as the requesting application for serial port contention negotiation during open(). */
+        
+	/** 
+         * Get the name to report as the requesting application for serial port contention negotiation during open(). 
+         * @return The application name which use the port.
+         */
 	public String getAppName() { return appName; }
 
-	/** Set the timeout for serial port contention negotiation during open(). */
+	/** 
+         * Set the timeout for serial port contention negotiation during open(). 
+         * @param openTimeout The timeout for opening serial port.
+         */
 	public void setOpenTimeout(int openTimeout) { this.openTimeout = openTimeout; }
-	/** Get the timeout for serial port contention negotiation during open(). */
+        
+	/** 
+         * Get the timeout for serial port contention negotiation during open(). 
+         * @return The timeout for opening serial port.
+         */
 	public int getOpenTimeout() { return openTimeout; }
 
-	/** Set the baud rate. */
+	/** 
+         * Set the baud rate. 
+         * @param baudRate The baud rate.
+         */
 	public void setBaudRate(int baudRate) { this.baudRate = baudRate; }
-	/** Get the baud rate. */
+        
+        
+	/** 
+         * Get the baud rate. 
+         * @return The fiscal port baud rate.
+         */
 	public int getBaudRate() { return baudRate; }
 
-	/** Set the number of data bits. */
+	/** 
+         * Set the number of data bits. 
+         * @param dataBits The number of data bits.
+         */
 	public void setDataBits(int dataBits) { this.dataBits = dataBits; }
-	/** Get the number of data bits. */
+        
+	/** 
+         * Get the number of data bits. 
+         * @return The number of data bits.
+         */
 	public int getDataBits() { return dataBits; }
 
-	/** Set the number of stop bits. */
+	/** 
+         * Set the number of stop bits. 
+         * @param stopBits The number of stop bits.
+         */
 	public void setStopBits(int stopBits) { this.stopBits = stopBits; }
-	/** Get the number of stop bits. */
+        
+	/** 
+         * Get the number of stop bits.
+         * @return The number of stop bits.
+         */
 	public int getStopBits() { return stopBits; }
 
-	/** Set the type of parity if any. */
+	/** 
+         * Set the type of parity if any. 
+         * @param parity The parity.
+         */
 	public void setParity(int parity) { this.parity = parity; }
-	/** Get the type of parity if any. */
+        
+        
+	/** 
+         * Get the type of parity if any. 
+         * @return The parity if any.
+         */
 	public int getParity() { return parity; }
 
-	/** Set the type of flow control if any. */
+	/** 
+         * Set the type of flow control if any. 
+         * @param flowControl The flow control.
+         */
 	public void setFlowControl(int flowControl) { this.flowControl = flowControl; }
-	/** Get the type of flow control if any. */
+        
+	/** 
+         * Get the type of flow control if any. 
+         * @return The flow control if any.
+         */
 	public int getFlowControl() { return flowControl; }
 
-	/** Create a SerialFiscalPort object. */
+	/** 
+         * Create a FiscalPort object. 
+         * @return A FiscalPort object.
+         * @throws NoSuchPortException if the fiscal port is invalid.
+         * @throws UnsupportedCommOperationException if the operation is not supported.
+         */
 	public FiscalPort getFiscalPort() throws NoSuchPortException, UnsupportedCommOperationException { return getSerialFiscalPort(); }
 
-	/** Create a SerialFiscalPort object. */
-	public SerialFiscalPort getSerialFiscalPort() throws NoSuchPortException, UnsupportedCommOperationException
-	{
+	/** 
+         * Create a SerialFiscalPort object. 
+         * @return A SerialFiscalPort object.
+         * @throws NoSuchPortException if the fiscal port is invalid.
+         * @throws UnsupportedCommOperationException if the operation is not supported.
+         */
+	public SerialFiscalPort getSerialFiscalPort() throws NoSuchPortException, UnsupportedCommOperationException {
 		return new SerialFiscalPort(portName, appName, openTimeout, baudRate, dataBits, stopBits, parity, flowControl);
 	}
 }

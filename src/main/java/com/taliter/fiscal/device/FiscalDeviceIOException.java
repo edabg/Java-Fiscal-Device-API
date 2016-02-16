@@ -40,8 +40,15 @@ public class FiscalDeviceIOException extends IOException
 		return s;
 	}
 
-	/** Get the request associated with this exception, if any. */
+	/** 
+         * Get the request associated with this exception, if any. 
+         * @return The requested packet.
+         */
 	public FiscalPacket getRequestPacket() { return request; }
-	/** Get the response associated with this exception, if any. */
+        
+	/** 
+         * Get the response associated with this exception, if any. 
+         * @return The response packet.
+         */
 	public FiscalPacket getResponsePacket() { return response; }
 }

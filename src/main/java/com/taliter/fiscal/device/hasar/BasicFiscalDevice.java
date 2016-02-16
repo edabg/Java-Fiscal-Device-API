@@ -94,7 +94,10 @@ public abstract class BasicFiscalDevice implements FiscalDevice
 
 	public void synchronize() throws IOException { throw new UnsupportedOperationException(); }
 
-	/** Set the fiscal port to use. The device must not be open. */
+	/** 
+         * Set the fiscal port to use. The device must not be open. 
+         * @param port The fiscal device port.
+         */
 	public void setFiscalPort(FiscalPort port)
 	{
 		if (in != null) throw new IllegalStateException("Device open");
@@ -102,37 +105,74 @@ public abstract class BasicFiscalDevice implements FiscalDevice
 		this.port = port;
 	}
 
-	/** Get the underlying fiscal port. */
+	/** 
+         * Get the underlying fiscal port. 
+         * @return The fiscal device port.
+         */
 	public FiscalPort getFiscalPort() { return port; }
 
-	/** Set the protocol timeout. The device may be open. */
-	public void setTimeout(int timeout) throws Exception
-	{
+	/** 
+         * Set the protocol timeout. The device may be open. 
+         * @param timeout The protocol timeout.
+         * @throws Exception Throws Exception
+         */
+	public void setTimeout(int timeout) throws Exception {
 		if (in != null) port.setTimeout(timeout);
 		this.timeout = timeout;
 	}
 
-	/** Get the protocol timeout. */
+	/** 
+         * Get the protocol timeout. 
+         * @return The protocol timeout.
+         */
 	public int getTimeout() { return timeout; }
 
-	/** True to use the extended (STATPRN) protocol. */
+	/** 
+         * True to use the extended (STATPRN) protocol. 
+         * @param extendedProtocol Boolean variable that specify whether to use extended protocol.
+         */
 	public void setExtendedProtocol(boolean extendedProtocol) { this.extendedProtocol = extendedProtocol; }
-	/** True to use the extended (STATPRN) protocol. */
+	
+        /** 
+         * True to use the extended (STATPRN) protocol. 
+         * @return True if the protocol is extended.
+         */
 	public boolean getExtendedProtocol() { return extendedProtocol; }
 
-	/** Set the number of times requests are tried before timeouting. */
+	/** 
+         * Set the number of times requests are tried before timeouting. 
+         * @param maxTries The number of tries.
+         */
 	public void setMaxTries(int maxTries) { if (maxTries < 1) throw new IllegalArgumentException(); this.maxTries = maxTries; }
-	/** Get the number of times requests are tried before timeouting. */
+        
+	/** 
+         * Get the number of times requests are tried before timeouting. 
+         * @return The number of tries.
+         */
 	public int getMaxTries() { return maxTries; }
 
-	/** Set the encoding to use for strings in newly created packets. */
+	/** 
+         * Set the encoding to use for strings in newly created packets. 
+         * @param encoding The packet's encoding.
+         */
 	public void setEncoding(String encoding) { this.encoding = encoding; }
-	/** Get the encoding to use for strings in newly created packets. */
+        
+	/** 
+         * Get the encoding to use for strings in newly created packets. 
+         * @return The packet's encoding.
+         */
 	public String getEncoding() { return encoding; }
 
-	/** Set the base roll-over year to use for dates in newly created packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. */
+	/** 
+         * Set the base roll-over year to use for dates in newly created packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. 
+         * @param baseRolloverYear The base rollover year.
+         */
 	public void setBaseRolloverYear(int baseRolloverYear) { if (baseRolloverYear < 0) throw new IllegalArgumentException(); this.baseRolloverYear = baseRolloverYear; }
-	/** Get the base roll-over year to use for dates in newly created packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. */
+	
+        /** 
+         * Get the base roll-over year to use for dates in newly created packets. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. 
+         * @return The base rollover year.
+         */
 	public int getBaseRolloverYear() { return baseRolloverYear; }
 
 	public void setEventHandler(FiscalDeviceEventHandler eventHandler) { this.eventHandler = eventHandler; }
@@ -140,6 +180,10 @@ public abstract class BasicFiscalDevice implements FiscalDevice
 
 	public abstract FiscalPacket createFiscalPacket();
 
+        /**
+         * Calculate the next serial number of the packet.
+         * @return The next serial number.
+         */
 	private int nextSerialNumber()
 	{
 		serialNumber += SN_STEP;
@@ -147,6 +191,12 @@ public abstract class BasicFiscalDevice implements FiscalDevice
 		return serialNumber;
 	}
 
+        /**
+         * Formats the packet to be acceptable for the protocol.
+         * @param packet The packet for format.
+         * @return The packet as a byte array.
+         * @throws IOException Throws IOException
+         */
 	private byte[] formatPacket(FiscalPacket packet) throws IOException
 	{
 		// Calculate length.
@@ -179,7 +229,23 @@ public abstract class BasicFiscalDevice implements FiscalDevice
 		return b;
 	}
 
-	private int receivePacket(FiscalPacket packet, FiscalPacket requestToReport) throws IOException { return receivePacket(packet, in.read(), requestToReport); }
+        /**
+         * Parse the response packet from the fiscal device.
+         * @param packet The request packet
+         * @param requestToReport The response packet.
+         * @return The fiscal packet serial number.
+         * @throws IOException Throws IOException
+         */
+        private int receivePacket(FiscalPacket packet, FiscalPacket requestToReport) throws IOException { return receivePacket(packet, in.read(), requestToReport); }
+
+        /**
+         * Parse the response packet from the fiscal device.
+         * @param packet The request packet
+         * @param x The first read byte
+         * @param requestToReport The response packet.
+         * @return The fiscal packet serial number.
+         * @throws IOException Throws IOException
+         */
 	private int receivePacket(FiscalPacket packet, int x, FiscalPacket requestToReport) throws IOException
 	{
 		ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -299,6 +365,13 @@ public abstract class BasicFiscalDevice implements FiscalDevice
 		onExecute(request, response);
 	}
 
+        /**
+         * Executes a request.
+         * @param request The request packet
+         * @param response The response packet
+         * @param requestToReport The request to report packet.
+         * @throws IOException Throws IOException
+         */
 	protected void basicExecute(FiscalPacket request, FiscalPacket response, FiscalPacket requestToReport) throws IOException
 	{
 		// Assume request != response.
@@ -418,10 +491,22 @@ public abstract class BasicFiscalDevice implements FiscalDevice
 	protected void receivedLongRequestWarning() { System.err.println("device: receivedLongRequestWarning"); }
 */
 
-	/** onTimeout() event dispacther. */
+	/** 
+         * onTimeout() event dispacther. 
+         * @param  request The request packet.
+         * @return True if the request is executed on timeout
+         */
 	protected boolean onTimeout(FiscalPacket request) { return eventHandler != null ? eventHandler.onTimeout(this, request) : false; }	// Retry if true.
-	/** onStatus() event dispacther. */
+	/** 
+         * onStatus() event dispacther. 
+         * @param  request The request packet.
+         * @param  status The fiscal status.
+         */
 	protected void onStatus(FiscalPacket request, int status) { if (eventHandler != null) eventHandler.onStatus(this, request, status); }
-	/** onExecute() event dispacther. */
+	/** 
+         * onExecute() event dispacther. 
+         * @param  request The request packet.
+         * @param  response The response packet.
+         */
 	protected void onExecute(FiscalPacket request, FiscalPacket response) { if (eventHandler != null) eventHandler.onExecute(this, request, response); }
 }

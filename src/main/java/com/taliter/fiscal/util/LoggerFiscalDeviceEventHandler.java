@@ -25,7 +25,10 @@ public class LoggerFiscalDeviceEventHandler implements FiscalDeviceEventHandler
 		this.log = new PrintWriter(log, true);
 	}
 
-	/** Get the underlying event handler. */
+	/** 
+         * Get the underlying event handler. 
+         * @return The fiscal device event handler.
+         */
 	public FiscalDeviceEventHandler getFiscalDeviceEventHandler() { return eventHandler; }
 
 	public boolean onTimeout(FiscalDevice source, FiscalPacket request)

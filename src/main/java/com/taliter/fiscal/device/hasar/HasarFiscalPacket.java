@@ -40,10 +40,16 @@ public class HasarFiscalPacket extends AbstractFiscalPacket
 		return b.toString();
 	}
 
-	/** Get the encoding in use for strings. */
+	/** 
+         * Get the encoding in use for strings. 
+         * @return The encoding of the packet.
+         */
 	public String getEncoding() { return encoding; }
 
-	/** Get the base roll-over year in use for dates. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. */
+	/** 
+         * Get the base roll-over year in use for dates. Valid years are from baseRolloverYear to baseRolloverYear + 99 inclusive. 
+         * @return The base roll over year.
+         */
 	public int getBaseRolloverYear() { return baseRolloverYear; }
 
 	// String Fields

@@ -12,7 +12,10 @@ public class SerialFiscalPort implements FiscalPort
 	// TODO: Handle these events and throw exceptions in read(): FramingError, OverrunError, ParityError
  	// TODO: Use the OutputEmpty event to wait in flushAndWait() (but see note below).
 
-	/** Get an alphabetically sorted set of available serial port names. */
+	/** 
+         * Get an alphabetically sorted set of available serial port names. 
+         * @return Set of port names.
+         */
 
 	public static SortedSet getPortNames()
 	{
@@ -109,12 +112,18 @@ public class SerialFiscalPort implements FiscalPort
 		}
 	}
 
-	public boolean isOpen() { return port != null; }
+        public boolean isOpen() { return port != null; }
 
-	/** Get the underlying serial port name. */
+	/** 
+         * Get the underlying serial port name. 
+         * @return The port name.
+         */
 	public String getPortName() { return portID.getName(); }
 
-	/** Get the underlying serial port or null if the port is not open. */
+	/** 
+         * Get the underlying serial port. 
+         * @return The serial port or null if the port is not open.
+         */
 	public SerialPort getSerialPort() { return port; }
 
 	public void setBaudRate(int baudRate) throws UnsupportedCommOperationException

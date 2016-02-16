@@ -24,7 +24,10 @@ public class LoggerFiscalPort implements FiscalPort
 		this.log = new PrintWriter(log, true);
 	}
 
-	/** Get the underlying fiscal port. */
+	/** 
+         * Get the underlying fiscal port. 
+         * @return The fiscal port.
+         */
 	public FiscalPort getFiscalPort() { return port; }
 
 	public void open() throws Exception

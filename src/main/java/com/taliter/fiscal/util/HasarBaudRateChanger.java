@@ -6,86 +6,99 @@ import com.taliter.fiscal.device.*;
 import com.taliter.fiscal.device.hasar.*;
 import com.taliter.fiscal.port.*;
 
-/** A tool to change the baud rate of a Hasar fiscal device. */
-public final class HasarBaudRateChanger
-{
-	private HasarBaudRateChanger() {}
+/**
+ * A tool to change the baud rate of a Hasar fiscal device.
+ */
+public final class HasarBaudRateChanger {
 
-	private static final long GUARD_TIME = 50;
-	private static final int FREE_ACKS = 3;
+    private HasarBaudRateChanger() {
+    }
 
-	private static final int ASCII_ACK = 0x06;
-	private static final int CMD_SET_BAUD_RATE = 0xA0;
+    private static final long GUARD_TIME = 50;
+    private static final int FREE_ACKS = 3;
 
-	/** Change the baud rate of a Hasar fiscal device. The device must be open. */
-	public static void changeBaudRate(FiscalDevice device, int baudRate) throws Exception
-	{
-		changeBaudRate((HasarFiscalDevice) device, baudRate);
-	}
+    private static final int ASCII_ACK = 0x06;
+    private static final int CMD_SET_BAUD_RATE = 0xA0;
 
-	/** Change the baud rate of a Hasar fiscal device. The device must be open. */
-	public static void changeBaudRate(HasarFiscalDevice device, int baudRate) throws Exception
-	{
-		FiscalPort port = device.getFiscalPort();
-		int br = port.getBaudRate();
-		if (br == baudRate)
-		{
-			device.synchronize();
-			return;
-		}
-		boolean success = false;
-		try
-		{
-			port.flushAndWait();
-			sleep(GUARD_TIME);
-			port.setBaudRate(baudRate);	// Check host baud rate support.
-			port.setBaudRate(br);
-			sleep(GUARD_TIME);
-			device.synchronize();
-			FiscalDeviceEventHandler h = device.getEventHandler();
-			device.setEventHandler(null);	// Suppress event generation.
-			try
-			{
-				FiscalPacket request = device.createFiscalPacket();
-				request.setCommandCode(CMD_SET_BAUD_RATE);
-				request.setInt(1, baudRate);
-				try { device.execute(request); }
-				catch (FiscalDeviceTimeoutException e)
-				{
-					OutputStream os = port.getOutputStream();
-					for (int i = FREE_ACKS; i > 0; i--)
-					{
-						os.write(ASCII_ACK);
-						port.flushAndWait();
-					}
-					sleep(GUARD_TIME);
-					port.setBaudRate(baudRate);
-					sleep(GUARD_TIME);
-					for (int i = FREE_ACKS; i > 0; i--)
-					{
-						os.write(ASCII_ACK);
-						port.flushAndWait();
-					}
-					device.synchronize();
-					success = true;
-					return;
-				}
-				port.flushAndWait();
-				sleep(GUARD_TIME);
-				port.setBaudRate(baudRate);
-				sleep(GUARD_TIME);
-				device.synchronize();
-				success = true;
-				return;
-			}
-			finally { device.setEventHandler(h); }
-		}
-		finally { if (!success) port.setBaudRate(br); }
-	}
+    /**
+     * Change the baud rate of a Hasar fiscal device. The device must be open.
+     *
+     * @param device A fiscal device object.
+     * @param baudRate The new baud rate of the device.
+     * @throws Exception Throws Exception.
+     */
+    public static void changeBaudRate(FiscalDevice device, int baudRate) throws Exception {
+        changeBaudRate((HasarFiscalDevice) device, baudRate);
+    }
 
-	private static void sleep(long ms)
-	{
-		try { Thread.sleep(ms); }
-		catch (InterruptedException x) { Thread.currentThread().interrupt(); }
-	}
+    /**
+     * Change the baud rate of a Hasar fiscal device. The device must be open.
+     * @param device The Hasar fiscal device.
+     * @param baudRate The new baud rate of the device.
+     * @throws Exception Throws Exception
+     */
+    public static void changeBaudRate(HasarFiscalDevice device, int baudRate) throws Exception {
+        FiscalPort port = device.getFiscalPort();
+        int br = port.getBaudRate();
+        if (br == baudRate) {
+            device.synchronize();
+            return;
+        }
+        boolean success = false;
+        try {
+            port.flushAndWait();
+            sleep(GUARD_TIME);
+            port.setBaudRate(baudRate);	// Check host baud rate support.
+            port.setBaudRate(br);
+            sleep(GUARD_TIME);
+            device.synchronize();
+            FiscalDeviceEventHandler h = device.getEventHandler();
+            device.setEventHandler(null);	// Suppress event generation.
+            try {
+                FiscalPacket request = device.createFiscalPacket();
+                request.setCommandCode(CMD_SET_BAUD_RATE);
+                request.setInt(1, baudRate);
+                try {
+                    device.execute(request);
+                } catch (FiscalDeviceTimeoutException e) {
+                    OutputStream os = port.getOutputStream();
+                    for (int i = FREE_ACKS; i > 0; i--) {
+                        os.write(ASCII_ACK);
+                        port.flushAndWait();
+                    }
+                    sleep(GUARD_TIME);
+                    port.setBaudRate(baudRate);
+                    sleep(GUARD_TIME);
+                    for (int i = FREE_ACKS; i > 0; i--) {
+                        os.write(ASCII_ACK);
+                        port.flushAndWait();
+                    }
+                    device.synchronize();
+                    success = true;
+                    return;
+                }
+                port.flushAndWait();
+                sleep(GUARD_TIME);
+                port.setBaudRate(baudRate);
+                sleep(GUARD_TIME);
+                device.synchronize();
+                success = true;
+                return;
+            } finally {
+                device.setEventHandler(h);
+            }
+        } finally {
+            if (!success) {
+                port.setBaudRate(br);
+            }
+        }
+    }
+
+    private static void sleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException x) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
