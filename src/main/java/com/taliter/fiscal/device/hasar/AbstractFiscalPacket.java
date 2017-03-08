@@ -13,7 +13,7 @@ public abstract class AbstractFiscalPacket implements FiscalPacket
 
 	private static final byte[] EMPTY_FIELD = new byte[0];
 
-	private List fields = new ArrayList();
+	private List<byte[]> fields = new ArrayList<byte[]>();
 
 	public boolean equals(Object o)
 	{
@@ -31,7 +31,7 @@ public abstract class AbstractFiscalPacket implements FiscalPacket
 		AbstractFiscalPacket p;
 		try { p = (AbstractFiscalPacket) super.clone(); }
 		catch (CloneNotSupportedException e) { throw new Error(e.toString()); }
-		List f = new ArrayList(fields.size());
+		List<byte[]> f = new ArrayList<byte[]>(fields.size());
 		Iterator i = fields.iterator();
 		while (i.hasNext())
 		{

@@ -1,6 +1,7 @@
 import com.taliter.fiscal.device.icl.ICLFiscalDevice;
 import com.taliter.fiscal.device.icl.ICLFiscalDeviceSource;
 import com.taliter.fiscal.device.icl.ICLFiscalPacket;
+import com.taliter.fiscal.port.rxtx.RXTXFiscalPortSource;
 import com.taliter.fiscal.port.serial.SerialFiscalPortSource;
 import com.taliter.fiscal.util.LoggerFiscalDeviceEventHandler;
 
@@ -15,12 +16,12 @@ public class SampleICL {
     public static void main(String[] args) throws Exception {
 
         // Create ICL fiscal device source on port "COM1"
-        ICLFiscalDeviceSource deviceSource = new ICLFiscalDeviceSource(new SerialFiscalPortSource("COM1"));
+        ICLFiscalDeviceSource deviceSource = new ICLFiscalDeviceSource(new RXTXFiscalPortSource("COM2"));
 
         // Creates ICL fiscal device object.
         ICLFiscalDevice device = deviceSource.getFiscalDevice();
-//        device.getFiscalPort().setBaudRate(9600);
-        device.getFiscalPort().setBaudRate(115200);
+        device.getFiscalPort().setBaudRate(9600);
+//        device.getFiscalPort().setBaudRate(115200);
         // Plug an event handler that logs the events triggered by the device.
         device.setEventHandler(new LoggerFiscalDeviceEventHandler(System.out));
         

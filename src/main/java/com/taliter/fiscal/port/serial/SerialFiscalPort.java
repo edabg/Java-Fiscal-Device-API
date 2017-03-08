@@ -19,7 +19,7 @@ public class SerialFiscalPort implements FiscalPort
 
 	public static SortedSet getPortNames()
 	{
-		SortedSet s = new TreeSet();
+		SortedSet<String> s = new TreeSet<String>();
 		Enumeration e = CommPortIdentifier.getPortIdentifiers();
 		while (e.hasMoreElements())
 		{
